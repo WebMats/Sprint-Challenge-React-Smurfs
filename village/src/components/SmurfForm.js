@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import axios from '../axios-village';
+import VillageContext from '../context/village-context';
+
+import './SmurfForm.css';
+
 
 class SmurfForm extends Component {
   constructor(props) {
@@ -10,15 +16,49 @@ class SmurfForm extends Component {
     };
   }
 
+  static contextType = VillageContext;
+
   addSmurf = event => {
     event.preventDefault();
     // add code to create the smurf using the api
+    const { name, age, height } = this.state;
+    if (name === '' || age === '' || height === '') {
+      return;
+    }
+    
+    const newSmurf = {
+      name: name,
+      age: age,
+      height: height
+    }
+    axios.post('', newSmurf).then(res => {
+      this.props.addedSmurf(res.data)
+    }).catch(err => {
+      console.error(err);
+    })
+    this.props.history.push("/smurfs")
+  }
 
-    this.setState({
-      name: '',
-      age: '',
-      height: ''
-    });
+  updateSmurf = (e) => {
+    e.preventDefault();
+    const { name, age, height } = this.state;
+    const newSmurf = {
+      name: name,
+      age: age,
+      height: height
+    }
+    let newTrimmedSmurf = {};
+    Object.keys(newSmurf).forEach(key => {
+      if (newSmurf[key] !== '') {
+        newTrimmedSmurf[key] = newSmurf[key];
+      }
+    })
+    axios.put(`/${this.context.smurfToUpdate}`, newTrimmedSmurf).then(res => {
+      this.props.updated(res.data);
+      this.props.history.replace("/smurfs");
+    }).catch(err => {
+      console.error(err);
+    })
   }
 
   handleInputChange = e => {
@@ -26,9 +66,9 @@ class SmurfForm extends Component {
   };
 
   render() {
+    const isUpdateIdSet = this.context.smurfToUpdate !== null;
     return (
-      <div className="SmurfForm">
-        <form onSubmit={this.addSmurf}>
+        <form className="SmurfForm" onSubmit={isUpdateIdSet ? this.updateSmurf : this.addSmurf} autoComplete="off">
           <input
             onChange={this.handleInputChange}
             placeholder="name"
@@ -47,9 +87,9 @@ class SmurfForm extends Component {
             value={this.state.height}
             name="height"
           />
-          <button type="submit">Add to the village</button>
+          <button type="submit" className="AddSmurfButton">{isUpdateIdSet ? "Update Smurf" : "Add to the village"}</button>
+          {!isUpdateIdSet && <Link to="/smurfs" className="CancelLink" >Cancel</Link>}
         </form>
-      </div>
     );
   }
 }

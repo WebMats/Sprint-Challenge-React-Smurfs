@@ -1,0 +1,16 @@
+.NavToAddSmurfButton {
+    text-decoration: none;
+    padding: 1rem 9rem;
+    font-weight: 700;
+    border-radius: 16px;
+    font-size: 1.6rem;
+    background-color: rgb(44, 172, 86);
+    color: white;
+    border: 1px solid rgb(27, 109, 54);
+}
+
+.NavToAddSmurfButton:hover,
+.NavToAddSmurfButton:active {
+    cursor: pointer;
+    background-color: rgb(30, 112, 57);
+}
