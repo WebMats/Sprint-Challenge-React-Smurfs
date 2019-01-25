@@ -14,7 +14,8 @@ const singleSmurf = (props) => {
                 return (
                     <div>
                         <Smurf {...context.smurfs.find(smurf => smurf.id === +id)} />
-                        <button onClick={() => context.deleteSmurf(+id, () => props.history.push("/smurfs"))}>Delete</button> <button>update</button>
+                        <button onClick={() => context.deleteSmurf(+id, () => props.history.push("/smurfs"))}>Delete</button> 
+                        <button onClick={() => context.initUpdate(id)}>update</button>
                     </div>
                 )
             }}

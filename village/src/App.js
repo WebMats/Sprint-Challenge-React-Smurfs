@@ -16,6 +16,7 @@ class App extends Component {
     super(props);
     this.state = {
       smurfs: [],
+      smurfToUpdate: null
     };
   }
   // add any needed code to ensure that the smurfs collection exists on state and it has data coming from the server
@@ -37,12 +38,21 @@ class App extends Component {
       console.error(err);
     })
   }
+  initUpdateHandler = (id) => {
+    this.setState(prevState => {
+      if (prevState.smurfToUpdate === +id) {
+        return {smurfToUpdate: null}
+      }
+      return {smurfToUpdate: +id}
+    })
+  }
 
   render() {
     return (
       <div className="App">
         <Navbar>
-        <VillageContext.Provider value={{smurfs: this.state.smurfs, deleteSmurf: this.deleteSmurfHandler}}>
+        <VillageContext.Provider value={{smurfs: this.state.smurfs, smurfToUpdate: this.state.smurfToUpdate, 
+                                  deleteSmurf: this.deleteSmurfHandler, initUpdate: this.initUpdateHandler}}>
           <Switch>
             <Redirect from="/" to="/smurfs" exact />
             <Route path="/smurfs" component={Smurfs} />
@@ -53,6 +63,7 @@ class App extends Component {
             <Route path="/smurf/:id" component={SingleSmurf} />
             <Redirect to="/smurfs" />
           </Switch>
+          {this.state.smurfToUpdate !== null && <SmurfForm updated={(updatedSmurfs) => {this.setState({smurfs: updatedSmurfs})}} />}
         </VillageContext.Provider>
         </Navbar>
       </div>

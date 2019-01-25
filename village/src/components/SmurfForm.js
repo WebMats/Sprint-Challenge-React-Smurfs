@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from '../axios-village';
+import VillageContext from '../context/village-context';
 
 import './SmurfForm.css';
 
@@ -14,6 +15,8 @@ class SmurfForm extends Component {
       height: ''
     };
   }
+
+  static contextType = VillageContext;
 
   addSmurf = event => {
     event.preventDefault();
@@ -30,12 +33,32 @@ class SmurfForm extends Component {
     }
     axios.post('', newSmurf).then(res => {
       this.props.addedSmurf(res.data)
-      this.setState({ name: '', age: '', height: '' });
     }).catch(err => {
       console.error(err);
-      this.setState({ name: '', age: '', height: '' });
     })
     this.props.history.push("/smurfs")
+  }
+
+  updateSmurf = (e) => {
+    e.preventDefault();
+    const { name, age, height } = this.state;
+    const newSmurf = {
+      name: name,
+      age: age,
+      height: height
+    }
+    let newTrimmedSmurf = {};
+    Object.keys(newSmurf).forEach(key => {
+      if (newSmurf[key] !== '') {
+        newTrimmedSmurf[key] = newSmurf[key];
+      }
+    })
+    axios.put(`/${this.context.smurfToUpdate}`, newTrimmedSmurf).then(res => {
+      this.props.updated(res.data);
+      this.props.history.replace("/smurfs");
+    }).catch(err => {
+      console.error(err);
+    })
   }
 
   handleInputChange = e => {
@@ -43,8 +66,9 @@ class SmurfForm extends Component {
   };
 
   render() {
+    const isUpdateIdSet = this.context.smurfToUpdate !== null;
     return (
-        <form className="SmurfForm" onSubmit={this.addSmurf} autoComplete="off">
+        <form className="SmurfForm" onSubmit={isUpdateIdSet ? this.updateSmurf : this.addSmurf} autoComplete="off">
           <input
             onChange={this.handleInputChange}
             placeholder="name"
@@ -63,7 +87,7 @@ class SmurfForm extends Component {
             value={this.state.height}
             name="height"
           />
-          <button type="submit" className="AddSmurfButton">Add to the village</button>
+          <button type="submit" className="AddSmurfButton">{isUpdateIdSet ? "Update Smurf" : "Add to the village"}</button>
           <Link to="/smurfs" className="CancelLink" >Cancel</Link>
         </form>
     );

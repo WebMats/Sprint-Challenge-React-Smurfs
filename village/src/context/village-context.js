@@ -2,5 +2,7 @@ import React from 'react';
 
 export default React.createContext({
     smurfs: [],
-    deleteSmurf: (id) => {}
+    smurfToUpdate: null,
+    deleteSmurf: (id) => {},
+    initUpdate: (id) => {}
 })
