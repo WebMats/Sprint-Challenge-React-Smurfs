@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import axios from '../axios-village';
+
+import './SmurfForm.css';
+
 
 class SmurfForm extends Component {
   constructor(props) {
@@ -13,12 +17,24 @@ class SmurfForm extends Component {
   addSmurf = event => {
     event.preventDefault();
     // add code to create the smurf using the api
-
-    this.setState({
-      name: '',
-      age: '',
-      height: ''
-    });
+    const { name, age, height } = this.state;
+    if (name === '' || age === '' || height === '') {
+      return;
+    }
+    
+    const newSmurf = {
+      name: name,
+      age: age,
+      height: height
+    }
+    axios.post('', newSmurf).then(res => {
+      this.props.addedSmurf(res.data)
+      this.setState({ name: '', age: '', height: '' });
+    }).catch(err => {
+      console.error(err);
+      this.setState({ name: '', age: '', height: '' });
+    })
+    
   }
 
   handleInputChange = e => {
@@ -27,8 +43,7 @@ class SmurfForm extends Component {
 
   render() {
     return (
-      <div className="SmurfForm">
-        <form onSubmit={this.addSmurf}>
+        <form className="SmurfForm" onSubmit={this.addSmurf} autoComplete="off">
           <input
             onChange={this.handleInputChange}
             placeholder="name"
@@ -47,9 +62,8 @@ class SmurfForm extends Component {
             value={this.state.height}
             name="height"
           />
-          <button type="submit">Add to the village</button>
+          <button type="submit" className="AddSmurfButton">Add to the village</button>
         </form>
-      </div>
     );
   }
 }
