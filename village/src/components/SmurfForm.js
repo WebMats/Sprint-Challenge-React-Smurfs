@@ -88,7 +88,7 @@ class SmurfForm extends Component {
             name="height"
           />
           <button type="submit" className="AddSmurfButton">{isUpdateIdSet ? "Update Smurf" : "Add to the village"}</button>
-          <Link to="/smurfs" className="CancelLink" >Cancel</Link>
+          {!isUpdateIdSet && <Link to="/smurfs" className="CancelLink" >Cancel</Link>}
         </form>
     );
   }

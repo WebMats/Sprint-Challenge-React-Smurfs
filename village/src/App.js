@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from './axios-village';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 
 import SmurfForm from './components/SmurfForm';
 import Smurfs from './components/Smurfs';
@@ -63,7 +63,7 @@ class App extends Component {
             <Route path="/smurf/:id" component={SingleSmurf} />
             <Redirect to="/smurfs" />
           </Switch>
-          {this.state.smurfToUpdate !== null && <SmurfForm updated={(updatedSmurfs) => {this.setState({smurfs: updatedSmurfs})}} />}
+          {this.state.smurfToUpdate !== null && <SmurfForm history={this.props.history} updated={(updatedSmurfs) => {this.setState({smurfs: updatedSmurfs, smurfToUpdate: null})}} />}
         </VillageContext.Provider>
         </Navbar>
       </div>
@@ -71,4 +71,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
