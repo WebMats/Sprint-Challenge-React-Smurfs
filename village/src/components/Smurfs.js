@@ -12,7 +12,7 @@ class Smurfs extends Component {
   render() {
     return (
       <div className="Smurfs">
-        <h1 style={{margin: "2rem 0", fontSize: "3rem"}}>Smurf Village</h1>
+        <h1 style={{margin: "2rem 0", fontSize: "3rem", color: "white"}}>Smurf Village</h1>
         <ul>
           {this.context.smurfs.map(({name, id, height, age}) => {
             return (
