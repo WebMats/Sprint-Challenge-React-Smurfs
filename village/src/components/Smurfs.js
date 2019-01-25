@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Link } from 'react-router-dom';
 import VillageContext from '../context/village-context';
 import Smurf from './Smurf';
 
@@ -26,7 +26,7 @@ class Smurfs extends Component {
             );
           })}
         </ul>
-        <button type="button" className={"NavToAddSmurfButton"} onClick={() => this.props.history.push("/add-smurf")}>Add Smurf</button>
+        <Link className="NavToAddSmurfButton" to="/add-smurf">Add Smurf</Link>
       </div>
     );
   }

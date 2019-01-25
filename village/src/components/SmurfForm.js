@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from '../axios-village';
 
 import './SmurfForm.css';
@@ -63,6 +64,7 @@ class SmurfForm extends Component {
             name="height"
           />
           <button type="submit" className="AddSmurfButton">Add to the village</button>
+          <Link to="/smurfs" className="CancelLink" >Cancel</Link>
         </form>
     );
   }

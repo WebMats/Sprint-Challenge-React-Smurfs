@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import axios from './axios-village';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import './App.css';
+
 import SmurfForm from './components/SmurfForm';
 import Smurfs from './components/Smurfs';
+import Navbar from './components/Navbar';
 import VillageContext from './context/village-context';
+
+import './App.css';
+
 
 class App extends Component {
   constructor(props) {
@@ -26,6 +30,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Navbar>
         <VillageContext.Provider value={{smurfs: this.state.smurfs}}>
           <Switch>
             <Redirect from="/" to="/smurfs" exact />
@@ -37,6 +42,7 @@ class App extends Component {
             <Redirect to="/smurfs" />
           </Switch>
         </VillageContext.Provider>
+        </Navbar>
       </div>
     );
   }
