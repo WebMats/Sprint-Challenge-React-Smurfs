@@ -34,7 +34,7 @@ class SmurfForm extends Component {
       console.error(err);
       this.setState({ name: '', age: '', height: '' });
     })
-    
+    this.props.history.push("/smurfs")
   }
 
   handleInputChange = e => {

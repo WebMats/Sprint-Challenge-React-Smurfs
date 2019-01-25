@@ -4,6 +4,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
 import SmurfForm from './components/SmurfForm';
 import Smurfs from './components/Smurfs';
+import VillageContext from './context/village-context';
 
 class App extends Component {
   constructor(props) {
@@ -25,15 +26,17 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Switch>
-          <Redirect from="/" to="/smurfs" exact />
-          <Route path="/smurfs" component={Smurfs} />
-          <Route path="/add-smurf" render={(props) => <SmurfForm 
-                                                        {...props}
-                                                         />}/>
-        </Switch>
-        <SmurfForm addedSmurf={(updatedSmurfs) => {this.setState({smurfs: updatedSmurfs})}} />
-        <Smurfs smurfs={this.state.smurfs} />
+        <VillageContext.Provider value={{smurfs: this.state.smurfs}}>
+          <Switch>
+            <Redirect from="/" to="/smurfs" exact />
+            <Route path="/smurfs" component={Smurfs} />
+            <Route path="/add-smurf" render={(props) => <SmurfForm 
+                                                          {...props}
+                                                          addedSmurf={(updatedSmurfs) => {this.setState({smurfs: updatedSmurfs})}}
+                                                           />}/>
+            <Redirect to="/smurfs" />
+          </Switch>
+        </VillageContext.Provider>
       </div>
     );
   }

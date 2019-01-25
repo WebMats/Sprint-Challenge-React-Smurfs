@@ -1,23 +1,23 @@
 .SmurfForm {
-    width: 20rem;
+    width: 32rem;
     margin: 0 auto;
 }
 .SmurfForm > input {
-    height: 1.8rem;
-    width: 12rem;
+    height: 2.8rem;
+    width: 19rem;
     text-align: center;
     border-radius: 7px;
 }
 .SmurfForm > input:nth-child(3) {
     display: block;
-    margin: 1rem auto;
+    margin: 1.6rem auto;
 }
 .SmurfForm > input[name="age"] {
-    width: 5rem;
+    width: 8rem;
     margin-left: 8px;
 }
 .AddSmurfButton {
-    height: 2rem;
+    height: 3.2rem;
     width: 100%;
     text-transform: uppercase;
     font-weight: 700;
