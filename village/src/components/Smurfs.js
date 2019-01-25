@@ -17,6 +17,7 @@ class Smurfs extends Component {
           {this.context.smurfs.map(({name, id, height, age}) => {
             return (
               <Smurf
+                history={this.props.history}
                 name={name}
                 id={id}
                 age={age}

@@ -5,6 +5,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import SmurfForm from './components/SmurfForm';
 import Smurfs from './components/Smurfs';
 import Navbar from './components/Navbar';
+import SingleSmurf from './components/SingleSmurf';
 import VillageContext from './context/village-context';
 
 import './App.css';
@@ -27,11 +28,21 @@ class App extends Component {
       console.error(err);
     })
   }
+
+  deleteSmurfHandler = (id, cb) => {
+    axios.delete(`/${id}`).then(res => {
+      this.setState({smurfs: res.data})
+      cb();
+    }).catch(err => {
+      console.error(err);
+    })
+  }
+
   render() {
     return (
       <div className="App">
         <Navbar>
-        <VillageContext.Provider value={{smurfs: this.state.smurfs}}>
+        <VillageContext.Provider value={{smurfs: this.state.smurfs, deleteSmurf: this.deleteSmurfHandler}}>
           <Switch>
             <Redirect from="/" to="/smurfs" exact />
             <Route path="/smurfs" component={Smurfs} />
@@ -39,6 +50,7 @@ class App extends Component {
                                                           {...props}
                                                           addedSmurf={(updatedSmurfs) => {this.setState({smurfs: updatedSmurfs})}}
                                                            />}/>
+            <Route path="/smurf/:id" component={SingleSmurf} />
             <Redirect to="/smurfs" />
           </Switch>
         </VillageContext.Provider>
